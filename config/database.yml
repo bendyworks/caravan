@@ -1,0 +1,10 @@
+development:
+  host: localhost
+  database: sinatra_playground_development
+
+test:
+  host: localhost
+  database: sinatra_playground_test
+
+production:
+  database: sinatra_playground

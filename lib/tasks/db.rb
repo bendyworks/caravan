@@ -1,11 +1,20 @@
+require 'yaml'
+
+def environment
+  ENV['RACK_ENV'] || 'development'
+end
+
+def database_config
+  YAML.load_file('config/database.yml').fetch(environment)
+end
+
 namespace :db do
   desc "Create a new database"
   task :create do
     require 'sequel'
 
-    # To create a new database, we need to use the `postgres` database
     postgres = Sequel.postgres 'postgres'
-    postgres.run 'CREATE DATABASE sinatra'
+    postgres.run "CREATE DATABASE #{database_config['database']}"
   end
 
   desc "Run the migrations on the database"
@@ -18,6 +27,6 @@ namespace :db do
     require 'sequel'
 
     postgres = Sequel.postgres 'postgres'
-    postgres.run 'DROP DATABASE sinatra'
+    postgres.run "DROP DATABASE #{database_config['database']}"
   end
 end
