@@ -20,7 +20,13 @@ namespace :db do
 
   desc "Run the migrations on the database"
   task :migrate do
-    puts "lol that's not done yet"
+    require 'sequel'
+
+    # Use the migration extension
+    Sequel.extension :migration
+
+    DB = Sequel.postgres database_config['database']
+    Sequel::Migrator.run(DB, 'db/migrate/')
   end
 
   desc "Drop the database"
