@@ -26,6 +26,8 @@ namespace :db do
     Sequel.extension :migration
 
     DB = Sequel.postgres database_config['database']
+
+    puts "Migrating the database"
     Sequel::Migrator.run(DB, 'db/migrate/')
   end
 
