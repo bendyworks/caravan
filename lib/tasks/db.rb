@@ -1,11 +1,11 @@
 require 'yaml'
 
 def environment
-  ENV['RACK_ENV'] || 'development'
+  ENV["RACK_ENV"] || "development"
 end
 
 def database_config
-  YAML.load_file('config/database.yml').fetch(environment)
+  YAML.load_file("config/database.yml").fetch(environment)
 end
 
 namespace :db do
