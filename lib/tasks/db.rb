@@ -13,6 +13,7 @@ namespace :db do
   task :create do
     require 'sequel'
 
+    puts "Creating the database"
     postgres = Sequel.postgres 'postgres'
     postgres.run "CREATE DATABASE #{database_config['database']}"
   end
@@ -26,6 +27,7 @@ namespace :db do
   task :drop do
     require 'sequel'
 
+    puts "Deleting the database"
     postgres = Sequel.postgres 'postgres'
     postgres.run "DROP DATABASE #{database_config['database']}"
   end
