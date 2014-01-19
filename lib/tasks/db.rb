@@ -31,4 +31,31 @@ namespace :db do
     postgres = Sequel.postgres 'postgres'
     postgres.run "DROP DATABASE #{database_config['database']}"
   end
+
+  desc "Create the skeleton for a new migration"
+  task :new_migration, :migration_name do |task, args|
+    latest_migration = Dir["db/migrate/*.rb"].last || "db/migrate/0000_not_a_real_migration.rb"
+    index = latest_migration.match(/([0-9]+)_.*\.rb$/)  # Find the last index number
+                            .captures  # Get the list which should only have one member
+                            .first  # Get the first element
+                            .to_i  # convert to an integer
+                            .succ  # increment it by one
+                            .to_s  # convert it back to a string
+                            .rjust(4, '0')  # Pad it on the left with 0's, e.g., 0001
+    migration_name = args[:migration_name].to_s
+    new_migration = "db/migrate/#{index}_#{migration_name}.rb"
+    File.open(new_migration, "w+") do |f|
+      f.write <<-END_MIGRATION
+Sequel.migration do
+  up do
+  end
+
+  down do
+  end
+end
+END_MIGRATION
+    end
+
+    puts "Your new migration can be found at `#{new_migration}'"
+  end
 end
