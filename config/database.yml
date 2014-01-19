@@ -1,10 +1,10 @@
 development:
   host: localhost
-  database: sinatra_playground_development
+  database: sinatra_best_practices_development
 
 test:
   host: localhost
-  database: sinatra_playground_test
+  database: sinatra_best_practices_test
 
 production:
-  database: sinatra_playground
+  database: sinatra_best_practices
