@@ -54,7 +54,7 @@ namespace :db do
                             .to_s  # convert it back to a string
                             .rjust(4, '0')  # Pad it on the left with 0's, e.g., 0001
 
-    migration_name = args[:migration_name].to_s
+    migration_name = (args[:migration_name] || 'unnamed_migration').to_s
 
     # Create the file name
     new_migration = "db/migrate/#{index}_#{migration_name}.rb"
