@@ -8,6 +8,17 @@ def database_config
   YAML.load_file("config/database.yml").fetch(environment)
 end
 
+def latest_migration_version
+  # Find the latest migration
+  latest_migration = Dir["db/migrate/*.rb"].last || "db/migrate/0000_not_a_real_migration.rb"
+
+  # Get the index for the new migration
+  latest_migration.match(/([0-9]+)_.*\.rb$/)  # Find the last index number
+                  .captures  # Get the list which should only have one member
+                  .first  # Get the first element
+                  .to_i  # convert to an integer
+end
+
 namespace :db do
   desc "Create a new database"
   task :create do
@@ -42,17 +53,9 @@ namespace :db do
 
   desc "Create the skeleton for a new migration"
   task :new_migration, :migration_name do |task, args|
-    # Find the latest migration
-    latest_migration = Dir["db/migrate/*.rb"].last || "db/migrate/0000_not_a_real_migration.rb"
-
-    # Get the index for the new migration
-    index = latest_migration.match(/([0-9]+)_.*\.rb$/)  # Find the last index number
-                            .captures  # Get the list which should only have one member
-                            .first  # Get the first element
-                            .to_i  # convert to an integer
-                            .succ  # increment it by one
-                            .to_s  # convert it back to a string
-                            .rjust(4, '0')  # Pad it on the left with 0's, e.g., 0001
+    index = latest_migration_version.succ  # increment it by one
+                                    .to_s  # convert it back to a string
+                                    .rjust(4, '0')  # Pad it on the left with 0's, e.g., 0001
 
     migration_name = (args[:migration_name] || 'unnamed_migration').to_s
 
