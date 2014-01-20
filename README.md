@@ -42,7 +42,14 @@ short below, and in greater detail in the READMEs placed in each directory.
 
 ## `lib/apps`
 
-Lorem ipsum
+In our client's case, this part of their infrastructure provides access to a 
+large number of resources. As such, keeping the resources (or endpoints) 
+organized helps and splitting them up into several smaller apps helps with 
+that organization. The pattern used to keep items organized is by using the 
+structure of the routes. For example, if you have a route that to the end user 
+is structured `/users/:user_id/some_resource`, you might make an app 
+specifically to hold all of the resources for `/users`.
+
 
 ## `lib/endpoint_models`
 
