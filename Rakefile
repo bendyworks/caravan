@@ -1,6 +1,7 @@
 require 'cane/rake_task'
 require 'rake'
 require 'rspec/core/rake_task'
+require 'cane/rake_task'
 
 Dir['./lib/tasks/*.rb'].sort.each do |task|
   require task
@@ -15,5 +16,9 @@ Cane::RakeTask.new(:cane) do |cane|
 end
 
 RSpec::Core::RakeTask.new(:spec)
+Cane::RakeTask.new(:cane) do |cane|
+  cane.abc_max = 15
+  #cane.add_threshold 'coverage/covered_percent', :>=, 99
+end
 
-task :default => [:spec, :cane]
+task :default => [:cane, :spec]
