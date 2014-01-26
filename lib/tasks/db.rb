@@ -10,7 +10,9 @@ end
 
 def latest_migration_version
   # Find the latest migration
-  latest_migration = Dir["db/migrate/*.rb"].last || "db/migrate/0000_not_a_real_migration.rb"
+  latest_migration = Dir["db/migrate/*.rb"].last
+  # If there is none, make up a name for one
+  latest_migration ||= "db/migrate/0000_not_a_real_migration.rb"
 
   # Get the index for the new migration
   latest_migration.match(/([0-9]+)_.*\.rb$/)  # Find the last index number
@@ -62,9 +64,10 @@ namespace :db do
 
   desc "Create the skeleton for a new migration"
   task :new_migration, :migration_name do |task, args|
-    index = latest_migration_version.succ  # increment it by one
-                                    .to_s  # convert it back to a string
-                                    .rjust(4, '0')  # Pad it on the left with 0's, e.g., 0001
+    index = latest_migration_version
+      .succ  # increment it by one
+      .to_s  # convert it back to a string
+      .rjust(4, '0')  # Pad it on the left with 0's, e.g., 0001
 
     migration_name = (args[:migration_name] || 'unnamed_migration').to_s
 
