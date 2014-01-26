@@ -15,4 +15,5 @@ end
 
 group :development do
   gem 'cane'
+  gem 'pry'
 end

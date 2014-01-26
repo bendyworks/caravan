@@ -20,6 +20,15 @@ def latest_migration_version
 end
 
 namespace :db do
+  desc "Provide access to the database via the Sequel gem"
+  task :console do
+    require 'pry'
+    require 'sequel'
+
+    DB = Sequel.postgres database_config['database']
+    binding.pry
+  end
+
   desc "Create a new database"
   task :create do
     require 'sequel'
