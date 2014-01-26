@@ -81,4 +81,7 @@ END_MIGRATION
 
     puts "Your new migration can be found at `#{new_migration}'"
   end
+
+  desc "Recreate the database. (db:drop, db:create, db:migrate)"
+  task :recreate => [:drop, :create, :migrate]
 end
