@@ -24,4 +24,20 @@ describe CaseStudy do
       CaseStudy.database_connection
     end
   end
+
+  describe '.environment' do
+    it 'should return the current RACK_ENV' do
+      expect(CaseStudy.environment).to eq('test')
+    end
+
+    context 'when RACK_ENV is empty' do
+      before do
+        ENV['RACK_ENV'] = nil
+      end
+
+      it 'should return "development"' do
+        expect(CaseStudy.environment).to eq('development')
+      end
+    end
+  end
 end
