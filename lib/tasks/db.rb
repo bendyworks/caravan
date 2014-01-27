@@ -1,12 +1,5 @@
-require 'yaml'
+require_relative '../case_study'
 
-def environment
-  ENV["RACK_ENV"] || "development"
-end
-
-def database_config
-  YAML.load_file("config/database.yml").fetch(environment)
-end
 
 def latest_migration_version
   # Find the latest migration
@@ -25,9 +18,8 @@ namespace :db do
   desc "Provide access to the database via the Sequel gem"
   task :console do
     require 'pry'
-    require 'sequel'
 
-    DB = Sequel.postgres database_config['database']
+    DB = CaseStudy.database_connection
     binding.pry
   end
 
@@ -37,17 +29,15 @@ namespace :db do
 
     puts "Creating the database"
     postgres = Sequel.postgres 'postgres'
-    postgres.run "CREATE DATABASE #{database_config['database']}"
+    postgres.run "CREATE DATABASE #{CaseStudy.database_config['database']}"
   end
 
   desc "Run the migrations on the database"
   task :migrate do
-    require 'sequel'
-
     # Use the migration extension
     Sequel.extension :migration
 
-    DB = Sequel.postgres database_config['database']
+    DB = CaseStudy.database_connection
 
     puts "Migrating the database"
     Sequel::Migrator.run(DB, 'db/migrate/')
@@ -59,7 +49,7 @@ namespace :db do
 
     puts "Deleting the database"
     postgres = Sequel.postgres 'postgres'
-    postgres.run "DROP DATABASE #{database_config['database']}"
+    postgres.run "DROP DATABASE #{CaseStudy.database_config['database']}"
   end
 
   desc "Create the skeleton for a new migration"
