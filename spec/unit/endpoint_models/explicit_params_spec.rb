@@ -18,6 +18,10 @@ module EndpointModels
       it 'creates an attribute on the class' do
         expect { TestClass.new.test_param }.not_to raise_error
       end
+
+      it 'accepts a hash with the parameter as a key' do
+        expect { TestClass.new({test_param: 'test'}) }.not_to raise_error
+      end
     end
   end
 end
