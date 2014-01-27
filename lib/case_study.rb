@@ -5,6 +5,7 @@ require 'sequel'
 require 'yaml'
 
 
+# Module to encapsulate some logic about the app
 module CaseStudy
   def self.database_config
     YAML.load_file("config/database.yml").fetch(environment)
