@@ -38,6 +38,11 @@ describe CaseStudy do
       it 'should return "development"' do
         expect(CaseStudy.environment).to eq('development')
       end
+
+      it 'should set RACK_ENV to "development"' do
+        CaseStudy.environment
+        expect(ENV['RACK_ENV']).to eq('development')
+      end
     end
   end
 end
