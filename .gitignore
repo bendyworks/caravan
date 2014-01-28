@@ -2,3 +2,4 @@
 bin/*
 bundle/*
 .bundle/*
+coverage/
