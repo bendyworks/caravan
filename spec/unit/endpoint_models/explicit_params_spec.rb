@@ -23,6 +23,10 @@ module EndpointModels
         expect { TestClass.new({test_param: 'test'}) }.not_to raise_error
       end
 
+      it 'saves the name of the attribute' do
+        expect(TestClass.allowed_parameters).to include(:test_param)
+      end
+
       context 'when a default is provided' do
         before do
           class TestCase

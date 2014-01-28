@@ -4,6 +4,7 @@ module EndpointModels
     def allow_params(*args)
       args.each do |name|
         attr_reader name
+        allowed_parameters << name
       end
     end
 
