@@ -47,6 +47,10 @@ Some of the rake tasks provide convenient database combos:
   will create a migration in `db/migrate` called `0001_add_users`. Unless you
   already have another migration.
 
+## The request/response cycle
+
+![Flow graph](caravan_diagram.png)
+
 ## Project structure
 
 Here's a quick look at the structure of the project:
