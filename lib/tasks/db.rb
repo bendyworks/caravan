@@ -12,7 +12,7 @@ namespace :db do
   task :console do
     require 'pry'
 
-    DB = CaseStudy.database_connection
+    DB = Caravan.database_connection
     binding.pry
   end
 
@@ -22,7 +22,7 @@ namespace :db do
 
     puts "Creating the database"
     postgres = Sequel.postgres 'postgres'
-    postgres.run "CREATE DATABASE #{CaseStudy.database_config['database']}"
+    postgres.run "CREATE DATABASE #{Caravan.database_config['database']}"
   end
 
   desc "Run the migrations on the database"
@@ -30,7 +30,7 @@ namespace :db do
     # Use the migration extension
     Sequel.extension :migration
 
-    DB = CaseStudy.database_connection
+    DB = Caravan.database_connection
 
     puts "Migrating the database"
     Sequel::Migrator.run(DB, migrations_dir)
@@ -42,7 +42,7 @@ namespace :db do
 
     puts "Deleting the database"
     postgres = Sequel.postgres 'postgres'
-    postgres.run "DROP DATABASE #{CaseStudy.database_config['database']}"
+    postgres.run "DROP DATABASE #{Caravan.database_config['database']}"
   end
 
   desc "Create the skeleton for a new migration"

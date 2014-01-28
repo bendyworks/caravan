@@ -6,9 +6,10 @@ require 'yaml'
 
 
 # Module to encapsulate some logic about the app
-module CaseStudy
+module Caravan
   def self.database_config
-    YAML.load_file(File.expand_path("../../config/database.yml", __FILE__)).fetch(environment)
+    path = File.expand_path("../../config/database.yml", __FILE__)
+    YAML.load_file(path).fetch(environment)
   end
 
   def self.database_connection
