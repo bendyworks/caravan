@@ -2,7 +2,7 @@
 
 This project is just a template used to document some of the best practices
 learned while working on a very complex [Sinatra][sinatra] API project with
-[Moz](moz.com).  This project has far fewer moving parts, but a large part of
+[Moz][].  This project has far fewer moving parts, but a large part of
 what makes Moz's model significant is how they designed their Sinatra
 application for maintainability and modularity.
 
@@ -50,6 +50,55 @@ Some of the rake tasks provide convenient database combos:
 ## The request/response cycle
 
 ![Flow graph](caravan_diagram.png)
+
+### Request
+
+Request needs definition: requesting a version of an endpoint
+
+### Response
+
+Response needs to be defined:
+
+What is sent back?
+
+- JSON in the format promised in the endpoint definition
+
+Does the validation apply to it?
+
+- Yes
+
+### Sinatra Router
+
+More information about Sinatra and how it handles routing can be found on its
+[website][sinatra].
+
+### Interpol endpoint validation
+
+[Interpol][] is an open source toolkit for policing your HTTP JSON interface
+maintained by [Moz][]. It uses YAML files with definitions of the expected
+request and the promised response. These are called endpoint definitions.
+Caravan uses Interpol to enforce a contract with the consumer of the JSON
+interface.
+
+When a request is made to Caravan, the request is parsed and validated by
+Interpol. If the request is not in the form that Interpol expects, the
+client will receive an error. If the request is valid, Interpol will then
+validate the response that Caravan generates to ensure it is what the consumer
+expects.
+
+### Versioned Endpoint Model
+
+[Interpol][] allows for endpoint definitions to be versioned as such we can
+define independent Endpoint Models to provide different versions of an
+endpoint. Typically the preferred version is the highest version number so if
+the consumer does not specify the version they want, they will get the newest
+version of the endpoint.
+
+### External Services
+
+Define these.
+
+### Shards
 
 ## Project structure
 
@@ -108,3 +157,5 @@ Lorem ipsum
 Lorem ipsum
 
 [sinatra]: http://sinatrarb.com/
+[Moz]: http://moz.com/
+[Interpol]: https://github.com/seomoz/interpol
