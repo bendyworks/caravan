@@ -43,11 +43,9 @@ Some of the rake tasks provide convenient database combos:
 * Use `rake db:recreate` to drop, create, and migrate the database.
 
 * `rake db:new_migration[migration_name]` will generate a skeleton for a new
-  migration on the database.
-
-  * Example: `rake db:new_migration[add_users]` will create a migration in
-    `db/migrate` called `0001_add_users`. Unless you already have another
-    migration.
+  migration on the database. For example, `rake db:new_migration[add_users]`
+  will create a migration in `db/migrate` called `0001_add_users`. Unless you
+  already have another migration.
 
 ## Project structure
 
