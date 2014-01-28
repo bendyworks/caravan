@@ -1,0 +1,7 @@
+#!/bin/sh -x
+
+# Install everything we need
+bundle install --standalone --binstubs
+
+# Create the database
+bin/rake db:bootstrap
