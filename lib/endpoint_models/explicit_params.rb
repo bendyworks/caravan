@@ -1,3 +1,5 @@
+require 'set'
+
 module EndpointModels
   # Module for EndpointModel classes to extend
   module ExplicitParams
@@ -40,9 +42,25 @@ module EndpointModels
     # ExplicitParams
     module InstanceMethods
       def initialize(params={})
+        init_params params
+      end
+
+    private
+
+      def init_params(params)
         params.each do |attr, value|
-          instance_variable_set(:"@#{attr}", value)
+          set_attr(attr, value)
         end
+
+        need_defaults = self.class.allowed_parameters - params.keys
+        need_defaults.each do |attr|
+          value = self.class.parameter_defaults[attr].call
+          set_attr(attr, value)
+        end
+      end
+
+      def set_attr(attr, value)
+        instance_variable_set(:"@#{attr}", value)
       end
     end
   end

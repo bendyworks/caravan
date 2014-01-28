@@ -37,11 +37,11 @@ module EndpointModels
 
           allow_params :test_param, default: true
         end
-        
+
         let(:test_class) { TestAllowedParamsWithDefaults }
 
         it 'returns the default if no parameter is specified' do
-          expect(test_class.new.test_param).to be_true
+          expect(test_class.new.test_param).to be true
         end
       end
     end
