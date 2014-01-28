@@ -2,9 +2,12 @@ module EndpointModels
   # Module for EndpointModel classes to extend
   module ExplicitParams
     def allow_params(*args)
+      options = args.last.is_a?(Hash) ? args.pop : Hash.new
+
       args.each do |name|
         attr_reader name
         allowed_parameters << name
+        parameter_defaults[name] = -> { options[:default] }
       end
     end
 
@@ -16,6 +19,10 @@ module EndpointModels
 
     def required_parameters
       @required_parameters ||= []
+    end
+
+    def parameter_defaults
+      @parameter_defaults ||= Hash.new(-> { nil })
     end
 
   private
