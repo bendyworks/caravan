@@ -1,4 +1,4 @@
-# Sinatra Case Study
+# Caravan
 
 This project is just a template used to document some of the best practices 
 that we have learned while working on a very complex API project with 
