@@ -1,4 +1,4 @@
-require 'case_study'
+require 'caravan'
 require 'spec_helper'
 
 describe Caravan do

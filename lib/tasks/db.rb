@@ -1,4 +1,4 @@
-require File.expand_path('../../case_study', __FILE__)
+require File.expand_path('../../caravan', __FILE__)
 
 def migrations_dir
   File.expand_path('../../../db/migrate/', __FILE__)
