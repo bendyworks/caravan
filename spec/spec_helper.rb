@@ -7,6 +7,12 @@
 
 ENV['RACK_ENV'] = 'test'
 
+require 'simplecov'
+
+SimpleCov.start do
+  add_filter('lib/')
+end
+
 RSpec.configure do |config|
   # Limit the spec run to only specs with the focus metadata. If no specs have
   # the filtering metadata and `run_all_when_everything_filtered = true` then
@@ -22,5 +28,5 @@ RSpec.configure do |config|
   # order dependency and want to debug it, you can fix the order by providing
   # the seed, which is printed after each run.
   #     --seed 1234
-  #config.order = 'random'
+  config.order = 'random'
 end
