@@ -1,11 +1,14 @@
-require_relative '../case_study'
+require File.expand_path('../../case_study', __FILE__)
 
+def migrations_dir
+  File.expand_path('../../../db/migrate/', __FILE__)
+end
 
 def latest_migration_version
   # Find the latest migration
-  latest_migration = Dir["db/migrate/*.rb"].last
+  latest_migration = Dir["#{migrations_dir}/*.rb"].last
   # If there is none, make up a name for one
-  latest_migration ||= "db/migrate/0000_not_a_real_migration.rb"
+  return 0 if latest_migration.nil?
 
   # Get the index for the new migration
   latest_migration.match(/([0-9]+)_.*\.rb$/)  # Find the last index number
@@ -40,7 +43,7 @@ namespace :db do
     DB = CaseStudy.database_connection
 
     puts "Migrating the database"
-    Sequel::Migrator.run(DB, 'db/migrate/')
+    Sequel::Migrator.run(DB, migrations_dir)
   end
 
   desc "Drop the database"
@@ -62,7 +65,7 @@ namespace :db do
     migration_name = (args[:migration_name] || 'unnamed_migration').to_s
 
     # Create the file name
-    new_migration = "db/migrate/#{index}_#{migration_name}.rb"
+    new_migration = migrations_dir + "/#{index}_#{migration_name}.rb"
 
     # Write the skeleton for a migration
     File.open(new_migration, "w+") do |f|
