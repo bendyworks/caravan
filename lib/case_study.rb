@@ -8,7 +8,7 @@ require 'yaml'
 # Module to encapsulate some logic about the app
 module CaseStudy
   def self.database_config
-    YAML.load_file("config/database.yml").fetch(environment)
+    YAML.load_file(File.expand_path("../../config/database.yml", __FILE__)).fetch(environment)
   end
 
   def self.database_connection
