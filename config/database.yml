@@ -1,10 +1,13 @@
 development:
   host: localhost
-  database: sinatra_best_practices_development
+  database: caravan_development
+  adapter: postgresql
 
 test:
   host: localhost
-  database: sinatra_best_practices_test
+  database: caravan_test
+  adapter: postgresql
 
 production:
-  database: sinatra_best_practices
+  database: caravan
+  adapter: postgresql
