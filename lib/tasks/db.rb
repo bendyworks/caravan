@@ -15,6 +15,9 @@ def latest_migration_version
 end
 
 namespace :db do
+  desc 'A task for doing everything to set up this project'
+  task :bootstrap => [:create, :migrate]
+
   desc "Provide access to the database via the Sequel gem"
   task :console do
     require 'pry'
