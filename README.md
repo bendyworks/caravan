@@ -16,7 +16,7 @@ git://github.com/sigmavirus24/caravan` and `cd caravan/`
 
 `./script/bootstrap` will run `bundle` and then create the database for you.
 
-## Using the rake tasks
+### Using the rake tasks
 
 All of the database tasks, except for `db:new_migrations`, rely on the
 configuration in `config/database.yml`.
@@ -52,6 +52,7 @@ Some of the rake tasks provide convenient database combos:
 # Project structure
 
 Here's a quick look at the structure of the project:
+
     .
     |-- Gemfile
     |-- Gemfile.lock
@@ -86,7 +87,7 @@ The importance of the directory structure is that it lends itself to keeping
 one's concerns separated. The importance of each directory is explained in
 short below, and in greater detail in the READMEs placed in each directory.
 
-## `lib/apps`
+### `lib/apps`
 
 In our client's case, this part of their infrastructure provides access to a
 large number of resources. As such, keeping the resources (or endpoints)
@@ -96,11 +97,11 @@ structure of the routes. For example, if you have a route that to the end user
 is structured `/users/:user_id/some_resource`, you might make an app
 specifically to hold all of the resources for `/users`.
 
-## `lib/endpoint_models`
+### `lib/endpoint_models`
 
 Lorem ipsum
 
-## `lib/models`
+### `lib/models`
 
 Lorem ipsum
 
