@@ -4,7 +4,7 @@ require 'spec_helper'
 describe CaseStudy do
   describe '.database_config' do
     it 'should load the config from the database' do
-      expect(YAML).to receive(:load_file).with('config/database.yml')
+      expect(YAML).to receive(:load_file).with(File.expand_path('../../../config/database.yml', __FILE__))
                                          .and_return(double(fetch: {}))
       expect(CaseStudy.database_config).to eq({})
     end
