@@ -22,6 +22,20 @@ module EndpointModels
       it 'accepts a hash with the parameter as a key' do
         expect { TestClass.new({test_param: 'test'}) }.not_to raise_error
       end
+
+      context 'when a default is provided' do
+        before do
+          class TestCase
+            extend ExplicitParams
+
+            allow_params :test_param, default: true
+          end
+        end
+
+        it 'returns the default if no parameter is specified' do
+          expect(TestClass.new.test_param).to be_true
+        end
+      end
     end
   end
 end
