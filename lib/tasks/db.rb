@@ -4,19 +4,6 @@ def migrations_dir
   File.expand_path('../../../db/migrate/', __FILE__)
 end
 
-def latest_migration_version
-  # Find the latest migration
-  latest_migration = Dir["#{migrations_dir}/*.rb"].last
-  # If there is none, make up a name for one
-  return 0 if latest_migration.nil?
-
-  # Get the index for the new migration
-  latest_migration.match(/([0-9]+)_.*\.rb$/)  # Find the last index number
-                  .captures  # Get the list which should only have one member
-                  .first  # Get the first element
-                  .to_i  # convert to an integer
-end
-
 namespace :db do
   desc 'A task for doing everything to set up this project'
   task :bootstrap => [:create, :migrate]
@@ -60,10 +47,7 @@ namespace :db do
 
   desc "Create the skeleton for a new migration"
   task :new_migration, :migration_name do |task, args|
-    index = latest_migration_version
-      .succ  # increment it by one
-      .to_s  # convert it back to a string
-      .rjust(4, '0')  # Pad it on the left with 0's, e.g., 0001
+    index = Time.now.to_i
 
     migration_name = (args[:migration_name] || 'unnamed_migration').to_s
 
