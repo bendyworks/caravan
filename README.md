@@ -9,7 +9,7 @@ application for maintainability and modularity.
 This project is not intended to be used as a gem, but to serve as a living
 example of robust API architecture and design.
 
-# Getting Started
+## Getting Started
 
 First, clone the project and open its directory: `git clone
 git://github.com/sigmavirus24/caravan` and `cd caravan/`
@@ -49,7 +49,7 @@ Some of the rake tasks provide convenient database combos:
     `db/migrate` called `0001_add_users`. Unless you already have another
     migration.
 
-# Project structure
+## Project structure
 
 Here's a quick look at the structure of the project:
 
