@@ -68,5 +68,15 @@ module EndpointModels
         expect(test_class.new(test_param: 'test').test_param).to eq('test')
       end
     end
+
+    context 'when passing undeclared parameters' do
+      class TestUnusedParams
+        extend ExplicitParams
+      end
+
+      it 'raises an error to warn that they were not declared' do
+        expect { TestUnusedParams.new(test_param: 'test') }.to raise_error
+      end
+    end
   end
 end
