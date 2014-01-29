@@ -6,21 +6,16 @@ module EndpointModels
     def allow_params(*args)
       options = args.last.is_a?(Hash) ? args.pop : Hash.new
 
-      args.each do |name|
-        attr_reader name
-        allowed_parameters << name
-        parameter_defaults[name] = -> { options[:default] }
-      end
+      create_parameters allowed_parameters, proc { options[:default] }, *args
     end
 
     def require_params(*args)
-      args.each do |name|
-        attr_reader name
-        required_parameters << name
-        parameter_defaults[name] = -> do
-          raise MissingParameterError, "#{name} required but not provided."
-        end
+      missing_param_proc = proc do |attr, params|
+        raise MissingParameterError,
+          "#{attr} required but not provided in #{params}."
       end
+
+      create_parameters required_parameters, missing_param_proc, *args
     end
 
     def allowed_parameters
@@ -50,6 +45,14 @@ module EndpointModels
       end
     end
 
+    def create_parameters(param_list, default_callable, *attrs)
+      attrs.each do |attr|
+        attr_reader attr
+        param_list << attr
+        parameter_defaults[attr] = default_callable
+      end
+    end
+
     # Methods that are needed for each instance of a class extending
     # ExplicitParams
     module InstanceMethods
@@ -63,21 +66,29 @@ module EndpointModels
 
     private
 
-      def init_params(params)
-        params.each do |attr, value|
-          set_attr(attr, value)
-        end
-        provided_params = params.keys
+      class UnusedParameterError < Exception ; end
 
-        need_defaults = self.class.defined_parameters - provided_params
-        need_defaults.each do |attr|
-          value = self.class.parameter_defaults[attr].call
-          set_attr(attr, value)
+      def init_params(params)
+        set_attributes params
+        provided_params = params.keys.map(&:to_sym)
+
+        unused_parameters = provided_params - self.class.defined_parameters
+        if unused_parameters.any?
+          raise UnusedParameterError,
+            'The following were provided but not used: ' +
+            unused_parameters.map(&:to_s).join(',')
         end
       end
 
-      def set_attr(attr, value)
-        instance_variable_set(:"@#{attr}", value)
+      def set_attributes(params)
+        self.class.defined_parameters.each do |attribute, value|
+          value = params[attribute]
+          if value.nil?
+            default_callable = self.class.parameter_defaults[attribute]
+            value = default_callable.call(attribute, params)
+          end
+          instance_variable_set(:"@#{attribute}", value)
+        end
       end
     end
   end
