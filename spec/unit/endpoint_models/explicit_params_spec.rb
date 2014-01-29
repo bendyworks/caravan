@@ -45,5 +45,19 @@ module EndpointModels
         end
       end
     end
+
+    describe 'require_params' do
+      class TestRequiredParams
+        extend ExplicitParams
+
+        require_params :test_param
+      end
+
+      let (:test_class) { TestRequiredParams }
+
+      it 'raises an error when no parameter is provided' do
+        expect { test_class.new }.to raise_error
+      end
+    end
   end
 end
