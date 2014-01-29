@@ -53,10 +53,19 @@ module EndpointModels
         require_params :test_param
       end
 
-      let (:test_class) { TestRequiredParams }
+      let(:test_class) { TestRequiredParams }
+      let(:error) { EndpointModels::ExplicitParams::MissingParameterError }
 
       it 'raises an error when no parameter is provided' do
-        expect { test_class.new }.to raise_error
+        expect { test_class.new }.to raise_error(error)
+      end
+
+      it 'does not raise an error when no parameter is provided' do
+        expect { test_class.new(test_param: 'test') }.not_to raise_error
+      end
+
+      it 'sets the value of the required parameter' do
+        expect(test_class.new(test_param: 'test').test_param).to eq('test')
       end
     end
   end

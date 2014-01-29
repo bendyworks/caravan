@@ -1,8 +1,8 @@
-require 'set'
-
 module EndpointModels
   # Module for EndpointModel classes to extend
   module ExplicitParams
+    class MissingParameterError < Exception ; end
+
     def allow_params(*args)
       options = args.last.is_a?(Hash) ? args.pop : Hash.new
 
@@ -13,7 +13,15 @@ module EndpointModels
       end
     end
 
-    def require_params(*args) ; end
+    def require_params(*args)
+      args.each do |name|
+        attr_reader name
+        required_parameters << name
+        parameter_defaults[name] = -> do
+          raise MissingParameterError, "#{name} required but not provided."
+        end
+      end
+    end
 
     def allowed_parameters
       @allowed_parameters ||= []
@@ -21,6 +29,10 @@ module EndpointModels
 
     def required_parameters
       @required_parameters ||= []
+    end
+
+    def defined_parameters
+      allowed_parameters + required_parameters
     end
 
     def parameter_defaults
@@ -45,14 +57,19 @@ module EndpointModels
         init_params params
       end
 
+      def self.data_for(params)
+        new(params).data
+      end
+
     private
 
       def init_params(params)
         params.each do |attr, value|
           set_attr(attr, value)
         end
+        provided_params = params.keys
 
-        need_defaults = self.class.allowed_parameters - params.keys
+        need_defaults = self.class.defined_parameters - provided_params
         need_defaults.each do |attr|
           value = self.class.parameter_defaults[attr].call
           set_attr(attr, value)
