@@ -10,12 +10,8 @@ module EndpointModels
     end
 
     def require_params(*args)
-      missing_param_proc = proc do |attr, params|
-        raise MissingParameterError,
-          "#{attr} required but not provided in #{params}."
-      end
-
-      create_parameters required_parameters, missing_param_proc, *args
+      create_parameters(required_parameters, method(:raise_missing_paramter),
+                        *args)
     end
 
     def allowed_parameters
@@ -51,6 +47,11 @@ module EndpointModels
         param_list << attr
         parameter_defaults[attr] = default_callable
       end
+    end
+
+    def raise_missing_paramter(attribute, parameters)
+      raise MissingParameterError,
+        "#{attribute} is required but not was provided in #{parameters}"
     end
 
     # Methods that are needed for each instance of a class extending
