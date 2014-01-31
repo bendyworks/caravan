@@ -9,7 +9,7 @@ require 'yaml'
 module Caravan
   def self.database_config
     path = File.expand_path("../../config/database.yml", __FILE__)
-    YAML.load_file(path).fetch(environment)
+    @config ||= YAML.load_file(path).fetch(environment)
   end
 
   def self.database_connection
