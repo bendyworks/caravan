@@ -13,7 +13,17 @@ describe Caravan do
 
   describe '.database_connection' do
     let(:config) do
-      {'database' => 'test'}
+      {
+        'adapter' => 'postgres',
+        'database' => 'test',
+        'host' => 'localhost'
+      }
+    end
+
+    let(:connect_parameters) do
+      config.each_with_object({}) do |(k, v), hash|
+        hash[k.to_sym] = v
+      end
     end
 
     before do
@@ -21,7 +31,7 @@ describe Caravan do
     end
 
     it 'should create a connection to the database' do
-      expect(Sequel).to receive(:postgres).with('test')
+      expect(Sequel).to receive(:connect).with(connect_parameters)
       Caravan.database_connection
     end
   end
