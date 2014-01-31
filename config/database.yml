@@ -1,13 +1,13 @@
 development:
   host: localhost
   database: caravan_development
-  adapter: postgresql
+  adapter: postgres
 
 test:
   host: localhost
   database: caravan_test
-  adapter: postgresql
+  adapter: postgres
 
 production:
   database: caravan
-  adapter: postgresql
+  adapter: postgres

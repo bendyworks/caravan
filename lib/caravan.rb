@@ -13,7 +13,11 @@ module Caravan
   end
 
   def self.database_connection
-    @connection ||= Sequel.postgres database_config['database']
+    @connection ||= Sequel.connect(
+      adapter: database_config['adapter'],
+      host: database_config.fetch('host', ENV['DATABASE_URL']),
+      database:  database_config['database']
+    )
   end
 
   def self.environment
