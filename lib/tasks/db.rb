@@ -20,9 +20,15 @@ namespace :db do
   task :create do
     require 'sequel'
 
-    puts "Creating the database"
     postgres = Sequel.postgres 'postgres'
-    postgres.run "CREATE DATABASE #{Caravan.database_config['database']}"
+    puts "Creating the #{Caravan.environment} database ..."
+
+    begin
+      postgres.run "CREATE DATABASE #{Caravan.database_config['database']}"
+    rescue Sequel::Error => e
+      puts "An error occurred:\n\t#{e.message}"
+      puts "Skipping ..."
+    end
   end
 
   desc "Run the migrations on the database"
@@ -32,17 +38,29 @@ namespace :db do
 
     DB = Caravan.database_connection
 
-    puts "Migrating the database"
-    Sequel::Migrator.run(DB, migrations_dir)
+    puts "Migrating the #{Caravan.environment} database ..."
+
+    begin
+      Sequel::Migrator.run(DB, migrations_dir)
+    rescue Sequel::Error => e
+      puts "Could not migrate the database."
+      puts e.message
+    end
   end
 
   desc "Drop the database"
   task :drop do
     require 'sequel'
 
-    puts "Deleting the database"
+    puts "Deleting the #{Caravan.environment} database ..."
     postgres = Sequel.postgres 'postgres'
-    postgres.run "DROP DATABASE #{Caravan.database_config['database']}"
+
+    begin
+      postgres.run "DROP DATABASE #{Caravan.database_config['database']}"
+    rescue Sequel::Error => e
+      puts "An error occurred:\n\t#{e.message}"
+      puts "Skipping ..."
+    end
   end
 
   desc "Create the skeleton for a new migration"
