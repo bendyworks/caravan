@@ -72,7 +72,7 @@ module EndpointModels
         set_attributes params
         provided_params = params.keys.map(&:to_sym)
 
-        unused_parameters = provided_params - self.class.defined_parameters
+        unused_parameters = provided_params - defined_parameters
         if unused_parameters.any?
           raise UnusedParameterError,
             'The following were provided but not used: ' +
@@ -84,11 +84,19 @@ module EndpointModels
         self.class.defined_parameters.each do |attribute, value|
           value = params[attribute]
           if value.nil?
-            default_callable = self.class.parameter_defaults[attribute]
+            default_callable = parameter_defaults[attribute]
             value = default_callable.call(attribute, params)
           end
           instance_variable_set(:"@#{attribute}", value)
         end
+      end
+
+      def defined_parameters
+        self.class.defined_parameters
+      end
+
+      def parameter_defaults
+        self.class.parameter_defaults
       end
     end
   end
