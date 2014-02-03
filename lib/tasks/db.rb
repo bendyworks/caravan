@@ -49,7 +49,11 @@ namespace :db do
   task :new_migration, :migration_name do |task, args|
     index = Time.now.to_i
 
-    migration_name = (args[:migration_name] || 'unnamed_migration').to_s
+    if args[:migration_name].nil?
+      raise "Must specify name for migration"
+    end
+
+    migration_name = args[:migration_name].to_s
 
     # Create the file name
     new_migration = migrations_dir + "/#{index}_#{migration_name}.rb"
