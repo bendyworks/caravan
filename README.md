@@ -1,4 +1,4 @@
-# Caravan
+![Caravan](caravan_logo.png)
 
 This project is just a template used to document some of the best practices
 learned while working on a very complex [Sinatra][sinatra] API project with
