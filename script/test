@@ -1,0 +1,7 @@
+#!/bin/sh -x
+
+# Ensure the project is set up
+script/bootstrap
+
+# Run the tests
+bundle exec rake
