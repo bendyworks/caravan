@@ -54,15 +54,18 @@ module EndpointModels
         "#{attribute} is required but not was provided in #{parameters}"
     end
 
+    # Class methods that are needed for every Endpoint Model class
+    module ClassMethods
+      def data_for(params)
+        new(params).data
+      end
+    end
+
     # Methods that are needed for each instance of a class extending
     # ExplicitParams
     module InstanceMethods
       def initialize(params={})
         init_params params
-      end
-
-      def self.data_for(params)
-        new(params).data
       end
 
     private
@@ -98,6 +101,10 @@ module EndpointModels
 
       def parameter_defaults
         self.class.parameter_defaults
+      end
+
+      def self.included(klass)
+        klass.extend ClassMethods
       end
     end
   end

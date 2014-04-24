@@ -78,5 +78,35 @@ module EndpointModels
         expect { TestUnusedParams.new(test_param: 'test') }.to raise_error
       end
     end
+
+    context 'when creating an Endpoint Model' do
+      class TestIncludedMethods
+        extend ExplicitParams
+
+        allow_params :id
+
+        def data; end
+      end
+
+      describe 'initialize' do
+        subject { TestIncludedMethods.new(id: 1) }
+
+        it 'accepts parameters' do
+          expect { subject }.not_to raise_error
+        end
+
+        it 'parses the parameters into attributes' do
+          expect(subject.id).to eq(1)
+        end
+      end
+
+      describe 'data_for' do
+        subject { TestIncludedMethods.data_for(id: 1) }
+
+        it 'accepts parameters' do
+          expect { subject }.not_to raise_error
+        end
+      end
+    end
   end
 end
