@@ -1,5 +1,8 @@
-require 'apps/users'
+require 'caravan'
 
+Caravan.database_connection
+
+require 'apps/users'
 require 'rack/builder'
 
 module Apps
