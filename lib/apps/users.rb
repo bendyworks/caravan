@@ -1,12 +1,9 @@
-require 'sinatra/base'
+require 'apps/base_app'
 
-require 'apps/helpers'
 require 'endpoint_models/users/user'
 
 module Apps
-  class Users < Sinatra::Base
-    include AppHelpers
-
+  class Users < CaravanBase
     get '/:username' do
       respond_with EndpointModels::User.data_for(params)
     end
