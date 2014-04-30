@@ -1,4 +1,5 @@
 require 'endpoint_models/explicit_params'
+require 'models/users'
 
 module EndpointModels
   # Endpoint to retrieve information about a username
@@ -14,7 +15,7 @@ module EndpointModels
   private
 
     def user
-      @user = User.find(login: username).values
+      @user = ::Users.find(login: username).values
       @user ||= {}
       @user.delete_if { |k, v| k == :id }
     end

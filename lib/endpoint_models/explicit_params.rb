@@ -14,12 +14,20 @@ module EndpointModels
                         *args)
     end
 
+    def ignore_params(*args)
+      ignore_parameters(args)
+    end
+
     def allowed_parameters
       @allowed_parameters ||= []
     end
 
     def required_parameters
       @required_parameters ||= []
+    end
+
+    def ignored_parameters
+      @ignored_parameters ||= [:splat, :captures]
     end
 
     def defined_parameters
@@ -49,6 +57,11 @@ module EndpointModels
       end
     end
 
+    def ignore_parameters(parameters)
+      to_ignore = ignored_parameters - parameters
+      ignored_parameters += to_ignore
+    end
+
     def raise_missing_paramter(attribute, parameters)
       raise MissingParameterError,
         "#{attribute} is required but not was provided in #{parameters}"
@@ -76,7 +89,7 @@ module EndpointModels
         set_attributes params
         provided_params = params.keys.map(&:to_sym)
 
-        unused_parameters = provided_params - defined_parameters
+        unused_parameters = provided_params - all_parameters
         if unused_parameters.any?
           raise UnusedParameterError,
             'The following were provided but not used: ' +
@@ -97,6 +110,10 @@ module EndpointModels
 
       def defined_parameters
         self.class.defined_parameters
+      end
+
+      def all_parameters
+        defined_parameters + self.class.ignored_parameters
       end
 
       def parameter_defaults
