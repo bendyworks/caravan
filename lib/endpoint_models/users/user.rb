@@ -15,8 +15,18 @@ module EndpointModels
   private
 
     def user
-      @user = ::Users.find(login: username).values
-      @user ||= {}
+      ::Users.find(login: username).values || {}
+    end
+  end
+
+  # Version 1.0 of user endpoint to retrieve information about a username
+  # It removes the User's id
+  class UserV10 < User
+
+  private
+
+    def user
+      @user = super
       @user.delete_if { |k, v| k == :id }
     end
   end
