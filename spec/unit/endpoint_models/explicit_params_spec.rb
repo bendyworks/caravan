@@ -108,5 +108,37 @@ module EndpointModels
         end
       end
     end
+
+    context 'when inheriting from an Endpoint Model' do
+      class TestOriginal
+        extend ExplicitParams
+
+        allow_params :id
+
+        def data; end
+      end
+
+      class TestInherited < TestOriginal ; end
+
+      describe 'initialize' do
+        subject { TestInherited.new(id: 1) }
+
+        it 'accepts parameters' do
+          expect { subject }.not_to raise_error
+        end
+
+        it 'parses the parameters into attributes' do
+          expect(subject.id).to eq(1)
+        end
+      end
+
+      describe 'data_for' do
+        subject { TestInherited.data_for(id: 1) }
+
+        it 'accepts parameters' do
+          expect { subject }.not_to raise_error
+        end
+      end
+    end
   end
 end

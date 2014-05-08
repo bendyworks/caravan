@@ -1,3 +1,5 @@
+require 'set'
+
 module EndpointModels
   # Module for EndpointModel classes to extend
   module ExplicitParams
@@ -6,7 +8,7 @@ module EndpointModels
     def allow_params(*args)
       options = args.last.is_a?(Hash) ? args.pop : Hash.new
 
-      create_parameters allowed_parameters, proc { options[:default] }, *args
+      create_parameters(allowed_parameters, proc { options[:default] }, *args)
     end
 
     def require_params(*args)
@@ -98,7 +100,7 @@ module EndpointModels
       end
 
       def set_attributes(params)
-        self.class.defined_parameters.each do |attribute, value|
+        defined_parameters.each do |attribute, value|
           value = params[attribute]
           if value.nil?
             default_callable = parameter_defaults[attribute]
@@ -109,15 +111,35 @@ module EndpointModels
       end
 
       def defined_parameters
-        self.class.defined_parameters
+        @defined_parameters ||= Array(
+          retrieve_from_ancestors :defined_parameters, Set.new
+        )
+      end
+
+      def ignored_parameters
+        @ignored_parameters ||= Array(
+          retrieve_from_ancestors :ignored_parameters, Set.new
+        )
       end
 
       def all_parameters
-        defined_parameters + self.class.ignored_parameters
+        defined_parameters + ignored_parameters
       end
 
       def parameter_defaults
-        self.class.parameter_defaults
+        @parameter_defaults ||= retrieve_from_ancestors :parameter_defaults, {}
+      end
+
+      def retrieve_from_ancestors(method, values)
+        klass = self.class
+
+        loop do
+          values = values.merge klass.public_send(method)
+          klass = klass.superclass
+          break unless klass.respond_to? method
+        end
+
+        values
       end
 
       def self.included(klass)
