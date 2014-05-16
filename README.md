@@ -98,40 +98,34 @@ version of the endpoint.
 
 Define these.
 
-### Shards
-
 ## Project structure
 
-Here's a quick look at the structure of the project:
+Here's a quick look at the directory structure of the project:
 
     .
-    |-- Gemfile
-    |-- Gemfile.lock
-    |-- README.md
-    |-- Rakefile
-    |-- config
-    |   `-- database.yml
-    |-- lib
-    |   |-- apps
-    |   |   `-- users.rb
-    |   |-- endpoint_models
-    |   |   `-- users
-    |   |       `-- user.rb
-    |   |-- models
-    |   |   `-- user.rb
-    |   `-- tasks
-    |       `-- db.rb
-    `-- spec
-        |-- acceptance
-        |   `-- README.md
-        |-- integration
-        |   `-- endpoint_models
-        |       `-- README.md
-        `-- unit
-            |-- endpoint_models
-            |   `-- README.md
-            `-- models
-                `-- README.md
+    ├── bin
+    ├── config
+    ├── db
+    │   └── migrate
+    ├── lib
+    │   ├── apps
+    │   ├── caravan.rb
+    │   ├── endpoint_definitions
+    │   ├── endpoint_models
+    │   ├── models
+    │   ├── tasks
+    │   └── util
+    ├── script
+    │   ├── bootstrap
+    │   └── test
+    └── spec
+        ├── acceptance
+        ├── integration
+        │   └── endpoint_models
+        ├── spec_helpers
+        └── unit
+            ├── endpoint_models
+            └── models
 
 
 The importance of the directory structure is that it lends itself to keeping
