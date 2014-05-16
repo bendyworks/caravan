@@ -20,6 +20,10 @@ module EndpointModels
       ignore_parameters(args)
     end
 
+    def data_for(params)
+      new(params).data
+    end
+
     def allowed_parameters
       @allowed_parameters ||= []
     end
@@ -67,13 +71,6 @@ module EndpointModels
     def raise_missing_parameter(attribute, parameters)
       raise MissingParameterError,
         "#{attribute} is required but not was provided in #{parameters}"
-    end
-
-    # Class methods that are needed for every Endpoint Model class
-    module ClassMethods
-      def data_for(params)
-        new(params).data
-      end
     end
 
     # Methods that are needed for each instance of a class extending
@@ -140,10 +137,6 @@ module EndpointModels
         end
 
         values
-      end
-
-      def self.included(klass)
-        klass.extend ClassMethods
       end
     end
   end
