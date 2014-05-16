@@ -4,7 +4,7 @@ require 'json'
 module AppHelpers
   class UnsupportedVersion < Exception ; end
 
-  def respond_with data
+  def respond_with(data)
     JSON.dump(data)
   end
 

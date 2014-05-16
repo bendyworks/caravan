@@ -12,7 +12,7 @@ module EndpointModels
     end
 
     def require_params(*args)
-      create_parameters(required_parameters, method(:raise_missing_paramter),
+      create_parameters(required_parameters, method(:raise_missing_parameter),
                         *args)
     end
 
@@ -64,7 +64,7 @@ module EndpointModels
       ignored_parameters += to_ignore
     end
 
-    def raise_missing_paramter(attribute, parameters)
+    def raise_missing_parameter(attribute, parameters)
       raise MissingParameterError,
         "#{attribute} is required but not was provided in #{parameters}"
     end
