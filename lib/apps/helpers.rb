@@ -11,7 +11,7 @@ module AppHelpers
   def get_preferred_version(*args)
     version = request.accept.first.params.fetch('v', args.first)
     raise UnsupportedVersion,
-      "Version #{version} is not a supported version" unless args.include? version
+      "#{version} is not a supported version" unless args.include? version
     version
   end
 end
