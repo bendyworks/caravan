@@ -6,6 +6,7 @@ GEM
     coderay (1.1.0)
     diff-lcs (1.2.5)
     docile (1.1.2)
+    hashie (2.1.1)
     interpol (0.10.6)
       json-schema (~> 1.1.1)
       rack
@@ -50,6 +51,7 @@ PLATFORMS
 
 DEPENDENCIES
   cane
+  hashie
   interpol
   pg
   pry

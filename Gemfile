@@ -9,6 +9,7 @@ gem 'sequel'
 
 gem 'sinatra'
 
+gem 'hashie'
 gem 'interpol'
 
 group :test do
