@@ -8,19 +8,49 @@ require 'yaml'
 # Module to encapsulate some logic about the app
 module Caravan
   def self.database_config
-    path = File.expand_path("../../config/database.yml", __FILE__)
-    @config ||= YAML.load_file(path).fetch(environment)
+    Database.config
   end
 
   def self.database_connection
-    @connection ||= Sequel.connect(
-      adapter: database_config['adapter'],
-      host: database_config.fetch('host', ENV['DATABASE_URL']),
-      database:  database_config['database']
-    )
+    Database.connection
   end
 
   def self.environment
-    ENV["RACK_ENV"] ||= "development"
+    Database.environment
+  end
+
+private
+
+  class Database
+    class << self
+      def config
+        path = File.expand_path("../../config/database.yml", __FILE__)
+        @config ||= load_config(path).fetch(environment)
+      end
+
+      def connection
+        @connection ||= Sequel.connect(
+          adapter: config['adapter'],
+          host: config.fetch('host', ENV['DATABASE_URL']),
+          database:  config['database']
+        )
+      end
+
+      def environment
+        ENV["RACK_ENV"] ||= "development"
+      end
+
+    private
+
+      def load_config(path)
+        if environment == 'production'
+          require 'erb'
+          config = ERB.new(File.read(path)).result
+        else
+          config = File.read(path)
+        end
+        YAML.load(config)
+      end
+    end
   end
 end
