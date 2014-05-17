@@ -32,7 +32,10 @@ private
         @connection ||= Sequel.connect(
           adapter: adapter,
           host: config.fetch('host', ENV['DATABASE_URL']),
-          database:  config['database']
+          port: config['port'],
+          database:  config['database'],
+          username: config['username'],
+          password: config['password'],
         )
       end
 
