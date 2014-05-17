@@ -30,7 +30,7 @@ private
 
       def connection
         @connection ||= Sequel.connect(
-          adapter: config['adapter'],
+          adapter: adapter,
           host: config.fetch('host', ENV['DATABASE_URL']),
           database:  config['database']
         )
@@ -50,6 +50,12 @@ private
           config = File.read(path)
         end
         YAML.load(config)
+      end
+
+      def adapter
+        if config['adapter'] == 'postgresql'
+          'postgres'
+        end
       end
     end
   end
