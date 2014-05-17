@@ -15,7 +15,8 @@ module EndpointModels
   private
 
     def user
-      ::Users.find(login: username).values || {}
+      u = ::Users.find(login: username)
+      u.nil? ? {} : u.values
     end
   end
 
