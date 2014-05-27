@@ -1,11 +1,8 @@
 # Migrations
 
-It is crucial to maintain the collection of the migrations used to recreate 
-the existing database. There are multiple ways of determining the order of 
-migrations. We could use a naming system similar to Rails, e.g., 
-`YYYYMMDD_name.rb` or more simply, an incremental numbering scheme. Moz chose 
-the latter so we also did for the purpose of this case study. Migrations are 
-numbered starting at 1.
+Maintaining the collection of the migrations used to recreate
+the existing database is critical. There are multiple ways of determining the order of
+migrations. We use the current time in seconds to organize the migrations.
 
 After a migration is published, i.e., after it is pushed to master, it should 
 never be modified.
@@ -18,10 +15,8 @@ migration, e.g.,
 
     rake db:new_migration[add_gravatar_to_users]
 
-This will create a template in this directory (`db/migrate`). If prior to 
-running the rake task, your last migration was `0003_add_repository_table.rb`, 
-your new file will be `0004_add_gravatar_to_users.rb`. By default, the file 
-will have
+This will create a template in the migrations directory (`db/migrate`).
+By default, the file will have
 
 ```ruby
 Sequel.migration do
@@ -38,9 +33,9 @@ end
 ```
 
 already inside of it. The [Sequel gem][migrations] has good documentation 
-about writing migrations with it, but we will summarize a bit of it here. Your 
-most common operations will likely be creating and altering tables. If you 
-were to create a table called `users` you might write something like
+about writing migrations, but we will summarize some of it here. Your 
+most common operations will likely be creating and altering tables. If you
+wanted to create a table called `users` you would write something like
 
 ```ruby
 Sequel.migration do
