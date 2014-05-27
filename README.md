@@ -152,11 +152,17 @@ responses.
 
 ### `lib/endpoint_models`
 
-Lorem ipsum
+This directory contains all of the models that generate the data to be returned
+to the client. Each of these classes generates the data for one version of an
+endpoint. There is a distinct pattern in having multiple endpoint versions: the
+ newest version has an unversioned name, older versions have version info in the
+ name and inherit from the newest version. This is to illustrate the common
+ relationship between new and old versions. It also facilitates removal of old
+ versions.
 
 ### `lib/models`
 
-Lorem ipsum
+Models here correlate directly to database models.
 
 [sinatra]: http://sinatrarb.com/
 [Moz]: http://moz.com/
