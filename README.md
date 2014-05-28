@@ -12,7 +12,7 @@ example of robust API architecture and design.
 ## Getting Started
 
 First, clone the project and open its directory: `git clone
-git://github.com/sigmavirus24/caravan` and `cd caravan/`
+git://gitlab.com/sigmavirus24/caravan` and `cd caravan/`
 
 `./script/bootstrap` will run `bundle` and then create the database for you.
 
@@ -53,19 +53,23 @@ Some of the rake tasks provide convenient database combos:
 
 ### Request
 
-Request needs definition: requesting a version of an endpoint
+Requests to Caravan can return default (preferred) version or
+ requested version. To request a specific version, specify the version
+ number in the accept header. For example:
+
+  Accept: application/json; v=2.0
+
+Some endpoints require sending parameters via the URL. Others will require
+ them to be sent as part of the request body. All parameters sent will be
+ validated. If they are invalid, you will receive a 403 response.
 
 ### Response
 
-Response needs to be defined:
-
-What is sent back?
-
-- JSON in the format promised in the endpoint definition
-
-Does the validation apply to it?
-
-- Yes
+All responses return JSON. The JSON response is validated against the
+ endpoint definitions. Response types generally are 200, 204, or 404
+ if the request was valid and the response body was valid. If Caravan
+ generates a response body that does not validate, you will receive
+ a 500 response.
 
 ### Sinatra Router
 
@@ -96,7 +100,7 @@ version of the endpoint.
 
 ### External Services
 
-Define these.
+These can be any API or HTTP service with whitch you wish Caravan to communicate.
 
 ## Project structure
 
@@ -109,7 +113,6 @@ Here's a quick look at the directory structure of the project:
     │   └── migrate
     ├── lib
     │   ├── apps
-    │   ├── caravan.rb
     │   ├── endpoint_definitions
     │   ├── endpoint_models
     │   ├── models
@@ -142,13 +145,24 @@ structure of the routes. For example, if you have a route that to the end user
 is structured `/users/:user_id/some_resource`, you might make an app
 specifically to hold all of the resources for `/users`.
 
+### `lib/endpoint_definitions`
+
+This directory contains all of the schema definitions for endpoint request and
+responses.
+
 ### `lib/endpoint_models`
 
-Lorem ipsum
+This directory contains all of the models that generate the data to be returned
+to the client. Each of these classes generates the data for one version of an
+endpoint. There is a distinct pattern in having multiple endpoint versions: the
+ newest version has an unversioned name, older versions have version info in the
+ name and inherit from the newest version. This is to illustrate the common
+ relationship between new and old versions. It also facilitates removal of old
+ versions.
 
 ### `lib/models`
 
-Lorem ipsum
+Models here correlate directly to database models.
 
 [sinatra]: http://sinatrarb.com/
 [Moz]: http://moz.com/

@@ -1,0 +1,52 @@
+---
+name: users-by-id
+route: /users/by-id/:id
+method: GET
+definitions:
+  - message_type: request
+    versions: ["1.0"]
+    path_params:
+      type: object
+      properties:
+        id:
+          type: integer
+    schema: {}
+    examples: []
+
+  - message_type: response
+    versions: ["1.0"]
+    status_codes: ["2xx", "404"]
+    schema:
+      description: Returns a object of properties about the requested user
+      type: object
+      properties:
+        id:
+          description: The user's id
+          type: integer
+        login:
+          description: The user's login name
+          type: string
+        company:
+          description: The company the user works for
+          type: string
+        html_url:
+          description: The user's online presence
+          type: string
+        location:
+          description: Wher the user lives
+          type: string
+        name:
+          description: The user's name
+          type: string
+        url:
+          description: The URL of the resource you are requesting
+          type: string
+
+    examples:
+     - id: 1
+       login: bendyworker
+       company: Bendyworks
+       html_url: https://github.com/bendyworker
+       location: The Internet
+       name: Bendyworker
+       url: /users/bendyworker

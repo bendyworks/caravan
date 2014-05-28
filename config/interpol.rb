@@ -65,7 +65,9 @@ Interpol.default_configuration do |config|
   #
   # Used by Interpol::ResponseSchemaValidator.
   config.validate_response_if do |env, status, headers, body|
-    headers['Content-Type'] =~ %r|application/json|
+    # Only validate for 2xx responses that aren't 204s
+    (200..299).include?(status) && status != 204 &&
+      headers['Content-Type'] =~ %r|application/json|
   end
 
   # Determines which request bodies to validate.

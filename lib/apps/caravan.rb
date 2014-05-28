@@ -9,6 +9,7 @@ require 'rack/builder'
 require 'interpol/request_body_validator'
 require 'interpol/response_schema_validator'
 require 'interpol/sinatra/request_params_parser'
+require 'apps/error_handler'
 
 module Apps
   # The master application which maps each sub-application to its root
@@ -18,6 +19,7 @@ module Apps
       app = Rack::Builder.new do
         use Interpol::RequestBodyValidator
         use Interpol::ResponseSchemaValidator
+        use Apps::Middleware::ErrorHandler
 
         map('/users') { run Apps::Users.new }
       end

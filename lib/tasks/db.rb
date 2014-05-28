@@ -64,7 +64,7 @@ namespace :db do
   end
 
   desc "Create the skeleton for a new migration"
-  task :new_migration, :migration_name do |task, args|
+  task :new_migration, :migration_name do |_, args|
     index = Time.now.to_i
 
     if args[:migration_name].nil?
