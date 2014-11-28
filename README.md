@@ -12,7 +12,7 @@ example of robust API architecture and design.
 ## Getting Started
 
 First, clone the project and open its directory: `git clone
-git://gitlab.com/sigmavirus24/caravan` and `cd caravan/`
+git://github.com/bendyworks/caravan` and `cd caravan/`
 
 `./script/bootstrap` will run `bundle` and then create the database for you.
 
