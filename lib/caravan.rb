@@ -35,7 +35,7 @@ private
           port: config['port'],
           database:  config['database'],
           username: config['username'],
-          password: config['password'],
+          password: config['password']
         )
       end
 
@@ -58,6 +58,8 @@ private
       def adapter
         if config['adapter'] == 'postgresql'
           'postgres'
+        else
+          config['adapter']
         end
       end
     end
