@@ -16,7 +16,8 @@ module EndpointModels
 
     def user
       u = ::Users.find(login: username)
-      u.nil? ? {} : u.values
+      raise NotFoundError unless u
+      u.values
     end
   end
 
