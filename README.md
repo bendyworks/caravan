@@ -47,6 +47,24 @@ Some of the rake tasks provide convenient database combos:
   will create a migration in `db/migrate` called `0001_add_users`. Unless you
   already have another migration.
 
+## Usage Example
+
+First, bootstrap as indicated above in "Getting Started." Next, fire up the console:
+
+    rake console
+
+Inside the console, create a user like the following:
+
+    [1] pry(main)> Users.create company: "Aperture Science", html_url: "http://huge.succe.ss", location: "lab", login: "chell", name: "Chell", url: "http://cake.com"
+
+With the users created, you can now use an HTTP client like curl or Postman. Here's what a curl request would look like:
+
+    $ curl http://0.0.0.0:9292/users/chell
+
+To get a previous version of the API (default in this sample app is "2.0"), you can do the following:
+
+    $ curl -H 'Accept: application/json; v=1.0' http://0.0.0.0:9292/users/chell
+
 ## The request/response cycle
 
 ![Flow graph](caravan_diagram.png)
