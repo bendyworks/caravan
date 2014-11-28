@@ -1,4 +1,4 @@
-![Caravan](caravan_logo.png)
+![Caravan](doc/caravan_logo.png)
 
 This project is just a template used to document some of the best practices
 learned while working on a very complex [Sinatra][sinatra] API project with
@@ -67,7 +67,7 @@ To get a previous version of the API (default in this sample app is "2.0"), you 
 
 ## The request/response cycle
 
-![Flow graph](caravan_diagram.png)
+![Flow graph](doc/caravan_diagram.png)
 
 ### Request
 
