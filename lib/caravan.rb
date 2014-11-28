@@ -29,14 +29,7 @@ private
       end
 
       def connection
-        @connection ||= Sequel.connect(
-          adapter: adapter,
-          host: config.fetch('host', ENV['DATABASE_URL']),
-          port: config['port'],
-          database:  config['database'],
-          username: config['username'],
-          password: config['password']
-        )
+        @connection ||= Sequel.connect(connection_params)
       end
 
       def environment
@@ -44,6 +37,17 @@ private
       end
 
     private
+
+      def connection_params
+        {
+          adapter: adapter,
+          host: config.fetch('host', ENV['DATABASE_URL']),
+          port: config['port'],
+          database:  config['database'],
+          username: config['username'],
+          password: config['password']
+        }
+      end
 
       def load_config(path)
         if environment == 'production'
